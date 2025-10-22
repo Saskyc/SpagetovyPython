@@ -1,0 +1,12 @@
+The game will be RPG console game.
+Will have hometown and exploration. Procedural generation of "Open" world would be great.
+- Mainly procedural dungeon.
+- Use files of game to save it and restore.
+RPG fights will be based on writing word and by that hurting monster.
+- In shops buy "stronger" words that take longer to write.
+- Every mistake of writing word takes percentage of attack away.
+  - The percentage should be calculated based on the word lenght.
+Any dimension should be procedurally generated as maze where you can find each location.
+- Overworld:
+  - Should have places like shops, dungeons etc.
+  - Dungeons are not needed to enter.
