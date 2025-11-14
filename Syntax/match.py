@@ -81,8 +81,8 @@ class Text:
         UserInput = f"{Color.Underline.Red}Napiš ID pro vybrání itemu do košíku:{Color.Reset} "
     class Kosik:
         Line = f"{Color.Bold.Purple}=============================={Color.Reset}"
-        Overview = f"{Color.Underline.Blue}Kosik overview{Color.Reset}{Color.Intensity.High.Green} (%price%) {Color.Reset}"
-        Category = f"{Color.Reset}- {Color.Intensity.High.Cyan}Kategorie: %type%{Color.Reset}, {Color.Intensity.High.Yellow}Název: %name%{Color.Reset}, {Color.Intensity.High.Green}Cena: %price%{Color.Reset}"
+        Overview = f"{Color.Underline.Blue}Kosik overview{Color.Reset}{Color.Intensity.High.Green} (%price%€) {Color.Reset}"
+        Category = f"{Color.Reset}- {Color.Intensity.High.Cyan}Kategorie: %type%{Color.Reset}, {Color.Intensity.High.Yellow}Název: %name%{Color.Reset}, {Color.Intensity.High.Green}Cena: %price%€{Color.Reset}"
 class Zarizeni:
     def __init__(self, name, type, price, id):
         self.Name = name
@@ -120,14 +120,13 @@ def kosikPrice(list):
     return cena
 
 def prehledKosiku(list):
-    cena = kosikPrice(list)
     print(Text.Kosik.Line)
-    print(Text.Kosik.Overview.replace("%price%", str(cena)))
+    print(Text.Kosik.Overview.replace("%price%", str(kosikPrice(list))))
     for x in list:
         text = Text.Kosik.Category.replace("%type%", removeOptionPrefix(str(x.Type)))
         text = text.replace("%name%", str(x.Name))
         text = text.replace("%price%", str(x.Price))
-        print(text) #Dodělat
+        print(text)
     print(Text.Kosik.Line)
 
 def napsatHlavniVyber():
@@ -210,47 +209,47 @@ Sklad = [
     Zarizeni("Monitor MSI Pro MP252L", Options.Monitor, 1490, 49),
     Zarizeni("Monitor Xiaomi A27i", Options.Monitor, 1999, 50),
 
-    Zarizeni("", Options.Reproduktor, 0, 51),
-    Zarizeni("", Options.Reproduktor, 0, 52),
-    Zarizeni("", Options.Reproduktor, 0, 53),
-    Zarizeni("", Options.Reproduktor, 0, 54),
-    Zarizeni("", Options.Reproduktor, 0, 55),
+    Zarizeni("Sony ULT Field 3, šedo-zelená", Options.Reproduktor, 3590, 51),
+    Zarizeni("Sonos Sub 4 Black", Options.Reproduktor, 17990, 52),
+    Zarizeni("Creative Sound Blaster GS3", Options.Reproduktor, 1199, 53),
+    Zarizeni("JBL GO 4 Black", Options.Reproduktor, 1290, 54),
+    Zarizeni("Bang & Olufsen BeoSound Stage Black/Silver", Options.Reproduktor, 19990, 55),
 
-    Zarizeni("", Options.Sluchátka, 0, 56),
-    Zarizeni("", Options.Sluchátka, 0, 57),
-    Zarizeni("", Options.Sluchátka, 0, 58),
-    Zarizeni("", Options.Sluchátka, 0, 59),
-    Zarizeni("", Options.Sluchátka, 0, 60),
+    Zarizeni("Sluchátka ultra", Options.Sluchátka, 10000, 56),
+    Zarizeni("Sluchátka medium", Options.Sluchátka, 5000, 57),
+    Zarizeni("Slucjhátka casual", Options.Sluchátka, 1000, 58),
+    Zarizeni("Sluchátka asus", Options.Sluchátka, 250, 59),
+    Zarizeni("Sluchátka mosus", Options.Sluchátka, 500, 60),
 
-    Zarizeni("", Options.Myš, 0, 61),
-    Zarizeni("", Options.Myš, 0, 62),
-    Zarizeni("", Options.Myš, 0, 63),
-    Zarizeni("", Options.Myš, 0, 64),
-    Zarizeni("", Options.Myš, 0, 65),
+    Zarizeni("Myš Ultra", Options.Myš, 2000, 61),
+    Zarizeni("Myš Medium", Options.Myš, 1000, 62),
+    Zarizeni("Myš Modrá", Options.Myš, 250, 63),
+    Zarizeni("Myš Žlutá", Options.Myš, 500, 64),
+    Zarizeni("Myš Oranžová", Options.Myš, 250, 65),
 
-    Zarizeni("", Options.Klávesnice, 0, 66),
-    Zarizeni("", Options.Klávesnice, 0, 67),
-    Zarizeni("", Options.Klávesnice, 0, 68),
-    Zarizeni("", Options.Klávesnice, 0, 69),
-    Zarizeni("", Options.Klávesnice, 0, 70),
+    Zarizeni("Klávesnice Asus", Options.Klávesnice, 5000, 66),
+    Zarizeni("Klávesnice Modrá", Options.Klávesnice, 4000, 67),
+    Zarizeni("Klávesnice Ultra", Options.Klávesnice, 100000, 68),
+    Zarizeni("Klávesnice A", Options.Klávesnice, 515, 69),
+    Zarizeni("Klávesnice B", Options.Klávesnice, 626, 70),
 
-    Zarizeni("", Options.Kamera, 0, 71),
-    Zarizeni("", Options.Kamera, 0, 72),
-    Zarizeni("", Options.Kamera, 0, 73),
-    Zarizeni("", Options.Kamera, 0, 74),
-    Zarizeni("", Options.Kamera, 0, 75),
+    Zarizeni("Kamera ABC", Options.Kamera, 1000, 71),
+    Zarizeni("Kamera Ultra", Options.Kamera, 50000, 72),
+    Zarizeni("Kamera X", Options.Kamera, 5000, 73),
+    Zarizeni("Kamera XL", Options.Kamera, 50000, 74),
+    Zarizeni("Kamera XXL", Options.Kamera, 500000, 75),
 
-    Zarizeni("", Options.Volant, 0, 76),
-    Zarizeni("", Options.Volant, 0, 77),
-    Zarizeni("", Options.Volant, 0, 78),
-    Zarizeni("", Options.Volant, 0, 79),
-    Zarizeni("", Options.Volant, 0, 80),
+    Zarizeni("Volant Sony X", Options.Volant, 250, 76),
+    Zarizeni("Volant Asus B", Options.Volant, 500, 77),
+    Zarizeni("Volant Kotlin 47x", Options.Volant, 1000, 78),
+    Zarizeni("Volant Csharp9", Options.Volant, 100, 79),
+    Zarizeni("Volant Python", Options.Volant, 1, 80),
 
-    Zarizeni("", Options.Case, 0, 81),
-    Zarizeni("", Options.Case, 0, 82),
-    Zarizeni("", Options.Case, 0, 83),
-    Zarizeni("", Options.Case, 0, 84),
-    Zarizeni("", Options.Case, 0, 85),
+    Zarizeni("Case Small", Options.Case, 100, 81),
+    Zarizeni("Case Medium", Options.Case, 500, 82),
+    Zarizeni("Case Large", Options.Case, 1000, 83),
+    Zarizeni("Case XL", Options.Case, 2000, 84),
+    Zarizeni("Case XLL", Options.Case, 4000, 85),
 ]
 
 Kosik = []
