@@ -1,1 +1,0 @@
-from Projekty.ConsoleChristmasGame import *
