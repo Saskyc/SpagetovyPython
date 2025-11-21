@@ -100,25 +100,34 @@ class Blacksmith(Location):
 """
 
 """
+=============================Entity=============================
+"""
+
+class Entity:
+    def __init__(self, name : str, health : int):
+        self.name = name
+        self.health = health
+
+"""
 =============================Enemies=============================
 """
 
-class Enemy:
-    def __init__(self, name : str, hp : int, reward : int, minDamage : int, maxDamage : int):
-        self.name = name
-        self.hp = hp
+class Enemy(Entity):
+    def __init__(self, reward : int, minDamage : int, maxDamage : int):
+        super().__init__("Enemy", 100)
         self.reward = reward
         self.minDamage = minDamage
         self.maxDamage = maxDamage
 
     @staticmethod
     def stats(self) -> None:
-        print(f"{Color.Regular.Red}Enemy overview:\n- HP: {self.hp}")
+        print(f"{Color.Regular.Red}Enemy overview:\n- HP: {self.health}")
 
     def attack(self) -> None:
         Player.Hp = Player.Hp - Random.randint(Random(), self.minDamage, self.maxDamage)
 
     def fight(self) -> None:
+        Player.Status.FightingWith = self
         while True:
             leaveFight = False
             clear()
@@ -129,18 +138,18 @@ class Enemy:
             akce = input("Akce: ").lower()
             match akce:
                 case "attack":
-                    self.hp = self.hp - Player.Inventory.EquippedWeapon.damage
+                    self.health = self.health - Player.Inventory.EquippedWeapon.damage
                 case "nothing":
                     pass
                 case "leave":
                     leaveFight = True
             
-            if self.hp <= 0:
+            if self.health <= 0:
                 Player.Coin = Player.Coin + self.reward
-                Player.Location.enemies.remove(self)
+                Player.Status.Location.enemies.remove(self)
                 leaveFight = True
             
-            if self.hp > 0:
+            if self.health > 0:
                 Enemy.attack(self)
 
             if Player.Hp <= 0:
@@ -148,14 +157,15 @@ class Enemy:
                 leaveFight = True
                 Player.removeCoin(self.reward * 2)
             
-           
-
             if leaveFight:
+                Player.Status.FightingWith = None
                 break
 
 class Spider(Enemy):
     def __init__(self):
-        super().__init__("Spider", 5, 40, 1, 3)
+        super().__init__(40, 1, 3)
+        self.name = "Spider"
+        self.health = 5
 
 """
 =============================Class option=============================
@@ -223,12 +233,12 @@ class LongIronSword(Weapon):
 =============================Npcs=============================
 """
 
-class Npc:
+class Npc(Entity):
     def __init__(self):
-        self.name = "NPC"
-        self.health = 100
+        super().__init__("NPC", 100)
         self.dialogues = []
     def talk(self):
+        Player.Status.TalkingWith = self
         for dialogue in self.dialogues:
             shouldLeave = False
             print(f"{Color.Regular.Purple}{dialogue.mainText}")
@@ -256,6 +266,7 @@ class Npc:
                 break
 
             if shouldLeave:
+                Player.Status.TalkingWith = None
                 break
 
 class John(Npc):
@@ -322,6 +333,59 @@ class JohnWife(Npc):
             JohnWife.First(),
             ]
 
+class JohnDog(Npc, Enemy):
+    class OnlyDialogue(Dialogue):
+        class Pet(Option):
+            def __init__(self):
+                super().__init__()
+                self.text = "Pohladit"
+                self.answer = "leave"
+            def action(self):
+                while True:
+                    print(f"{Color.Regular.Green}Rafran šťastně vrtí ocasem")
+                    input("...: ")
+                    break
+        class Boom(Option):
+            def __init__(self):
+                super().__init__()
+                self.text = "Bouchnout Rafana"
+                self.answer = "leave"
+            def action(self):
+                Player.Status.TalkingWith.fight()
+        class Leave(Option):
+            def __init__(self):
+                super().__init__()
+                self.text = "Nechat Rafana šťastně spát"
+                self.answer = "leave"
+        def __init__(self):
+            super().__init__()
+            self.mainText = "Rafan šťastně spí v rohu"
+            self.options = [
+                JohnDog.OnlyDialogue.Pet(),
+                JohnDog.OnlyDialogue.Boom(),
+                JohnDog.OnlyDialogue.Leave(),
+            ]
+
+    def __init__(self):
+        self.name = "Rafan"
+        self.health = 99999999999
+        self.minDamage = 99999999999
+        self.maxDamage = 99999999999
+        self.reward = 0
+        self.dialogues = [JohnDog.OnlyDialogue()]
+
+class Vaclav(Npc):
+    class Predstaveni(Dialogue):
+        pass
+    
+    def __init__(self):
+        super().__init__()
+        self.name = "Sír Lajky"
+        self.health = 300
+        self.dialogues = [
+
+        ]
+    pass
 """
 =============================Static player class=============================
 because this is singleplayer
@@ -329,9 +393,13 @@ because this is singleplayer
 
 
 class Player:
-    Location = None
-    Hp = 100
-    Coin = 0
+    Hp : int = 100
+    Coin : int = 0
+    class Status:
+        Location : "Location" | None = None
+        TalkingWith : "Npc" | None = None
+        FightingWith : "Enemy" | None = None
+
     class Inventory:
         Items = []
         Armor = []
@@ -345,7 +413,7 @@ class Player:
 
     @staticmethod
     def stats() -> None:
-        print(f"{Color.Reset}Player overview:\n HP: {Player.Hp}\n Coin: {Player.Coin}\n Location: {Player.Location.name}")
+        print(f"{Color.Reset}Player overview:\n HP: {Player.Hp}\n Coin: {Player.Coin}\n Location: {Player.Status.Location.name}")
 
 
 """
@@ -361,15 +429,18 @@ class Game:
 
         location = Tavern()
         Game.locations.append(location)
-        Player.Location = location
+        Player.Status.Location = location
 
         location = Blacksmith()
         location.locations.append(Game.locations[0])
         location.npcs.append(John())
+        location.npcs.append(JohnDog())
         location.npcs.append(JohnWife())
+        
+
         location.enemies.append(Spider())
         Game.locations.append(location)
-        Player.Location.locations.append(location)
+        Player.Status.Location.locations.append(location)
         
 
         Game.status = ""
@@ -381,30 +452,30 @@ class Game:
             Player.stats()
             print(f"{Color.Regular.Green}Command overviews:\n go location\n talk npc\n fight enemy{Color.Reset}")
 
-            if len(Player.Location.locations) == 0:
+            if len(Player.Status.Location.locations) == 0:
                 print(f"{Color.Regular.Red}No location to go to")
             else:
                 print(f"{Color.Regular.Blue}Locations to go to:")
                 index = 0
-                for location in Player.Location.locations:
+                for location in Player.Status.Location.locations:
                     print(f" {Color.Bold.Blue}({index}) {location.name}")
                     index += 1
 
-            if len(Player.Location.npcs) == 0:
+            if len(Player.Status.Location.npcs) == 0:
                 print(f"{Color.Regular.Red}No Npcs to talk with")
             else:
                 print(f"{Color.Regular.Purple}Npcs to talk with:")
                 index = 0
-                for npc in Player.Location.npcs:
+                for npc in Player.Status.Location.npcs:
                     print(f" {Color.Bold.Purple}({index}) {npc.name}")
                     index += 1
 
-            if len(Player.Location.enemies) == 0:
+            if len(Player.Status.Location.enemies) == 0:
                 print(f"{Color.Regular.Red}No Enmies to fight with")
             else:
                 print(f"{Color.Regular.Red}Enemies to fight with:")
                 index = 0
-                for enemy in Player.Location.enemies:
+                for enemy in Player.Status.Location.enemies:
                     print(f" {Color.Bold.Red}({index}) {enemy.name}")
                     index += 1
 
@@ -416,19 +487,19 @@ class Game:
             index = 0
             match args[0]:
                 case "go":
-                    for loc in Player.Location.locations:
+                    for loc in Player.Status.Location.locations:
                         if loc.name == args[1] or str(index) == args[1]:
-                            Player.Location = loc
+                            Player.Status.Location = loc
                             break
                         index += 1
                 case "talk":
-                    for npc in Player.Location.npcs:
+                    for npc in Player.Status.Location.npcs:
                         if npc.name == args[1] or str(index) == args[1]:
                             npc.talk()
                             break
                         index += 1
                 case "fight":
-                    for enemy in Player.Location.enemies:
+                    for enemy in Player.Status.Location.enemies:
                         if enemy.name == args[1] or str(index) == args[1]:
                             enemy.fight()
                             break
