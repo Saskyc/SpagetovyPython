@@ -1,4 +1,5 @@
 from random import Random
+clear = lambda : print("\n"*100)
 
 class Color:
     Reset = "\x1b[0m"
@@ -70,30 +71,34 @@ class Color:
                 Cyan = "\x1b[1;106m"
                 White = "\x1b[1;107m"
 
-
-
-clear = lambda : print("\n"*100)
-
 """
 =============================Locations=============================
 """
 
 class Location:
-    def __init__(self):
-        self.locations = []
-        self.name = "Location"
-        self.npcs = []
-        self.enemies = []
+    def __init__(self : "Location"):
+        self.name : str = "Location"
+        self.locations : list = []
+        self.npcs : list = []
+        self.enemies : list = []
+
+    @staticmethod
+    def remove(self : "Location", npc : "Npc") -> None:
+        try:
+            self.npcs.remove(npc)
+            self.enemies.remove(npc)
+        except:
+            pass
 
 class Tavern(Location):
-    def __init__(self):
+    def __init__(self : "Location"):
         super().__init__()
-        self.name = "Tavern"
+        self.name : str = "Tavern"
 
 class Blacksmith(Location):
-    def __init__(self):
+    def __init__(self : "Location"):
         super().__init__()
-        self.name = "Blacksmith"
+        self.name : str = "Blacksmith"
 
 """
 =============================DATA (Structs)=============================
@@ -103,79 +108,110 @@ class Blacksmith(Location):
 =============================Entity=============================
 """
 
-class Entity:
-    def __init__(self, name : str, health : int):
-        self.name = name
-        self.health = health
+class Npc:
+    def __init__(self : "Npc", name : str, health : int):
+        self.name : str = name
+        self.health : int = health
 
 """
 =============================Enemies=============================
 """
 
-class Enemy(Entity):
-    def __init__(self, reward : int, minDamage : int, maxDamage : int):
+class Hostile(Npc):
+    def __init__(self : "Npc", reward : int, minDamage : int, maxDamage : int) -> None:
         super().__init__("Enemy", 100)
-        self.reward = reward
-        self.minDamage = minDamage
-        self.maxDamage = maxDamage
+        self.reward : int = reward
+        self.minDamage : int = minDamage
+        self.maxDamage : int = maxDamage
 
     @staticmethod
-    def stats(self) -> None:
+    def stats(self : "Hostile") -> None:
         print(f"{Color.Regular.Red}Enemy overview:\n- HP: {self.health}")
 
-    def attack(self) -> None:
+    @staticmethod
+    def printAction() -> None:
+        print(f"{Color.Regular.Purple}Akce:\n- Attack\n- Leave\n- Nothing")
+
+    @staticmethod
+    def attack(self : "Hostile") -> None:
+        if self.health <= 0:
+            return
         Player.Hp = Player.Hp - Random.randint(Random(), self.minDamage, self.maxDamage)
 
-    def fight(self) -> None:
-        Player.Status.FightingWith = self
-        while True:
-            leaveFight = False
-            clear()
-            Player.stats()
-            Enemy.stats(self)
-            print(f"{Color.Regular.Purple}Akce:\n- Attack\n- Leave\n- Nothing")
+    class Evaluator:
+        @staticmethod
+        def Evaluate(self : "Hostile") -> bool:
+            actionResult = Hostile.Evaluator.EvaluateAction(self)
+            myselfResult = Hostile.Evaluator.EvaluateMyself(self)
+            playerResult = Hostile.Evaluator.EvaluatePlayer(self)
 
+            if actionResult or myselfResult or playerResult:
+                return True
+            return False
+
+        @staticmethod
+        def EvaluateAction(self : "Hostile") -> bool:
             akce = input("Akce: ").lower()
             match akce:
                 case "attack":
-                    self.health = self.health - Player.Inventory.EquippedWeapon.damage
+                    Player.attack(self)
                 case "nothing":
                     pass
                 case "leave":
-                    leaveFight = True
-            
-            if self.health <= 0:
-                Player.Coin = Player.Coin + self.reward
-                Player.Status.Location.enemies.remove(self)
-                leaveFight = True
-            
-            if self.health > 0:
-                Enemy.attack(self)
+                    return True
+            return False
 
-            if Player.Hp <= 0:
-                Player.Hp = 100
-                leaveFight = True
-                Player.removeCoin(self.reward * 2)
+        @staticmethod
+        def EvaluateMyself(self : "Hostile") -> bool:
+            if self.health > 0:
+                return False
             
-            if leaveFight:
+            Player.Coin = Player.Coin + self.reward
+            Player.Status.Location.enemies.remove(self)
+            return True
+
+        @staticmethod
+        def EvaluatePlayer(self : "Hostile") -> bool:
+            if Player.Hp > 0:
+                return False
+            
+            Player.removeCoin(self.reward * 2)
+            return True
+
+    @staticmethod
+    def print(self : "Hostile") -> None:
+        clear()
+        Player.stats()
+        Hostile.stats(self)
+        Hostile.printAction()
+
+    @staticmethod
+    def fight(self : "Hostile") -> None:
+        Player.Status.FightingWith = self
+        while True:
+            Hostile.print(self)
+
+            if Hostile.Evaluator.Evaluate(self):
                 Player.Status.FightingWith = None
                 break
 
-class Spider(Enemy):
-    def __init__(self):
+            Hostile.attack(self)
+
+class Spider(Hostile):
+    def __init__(self : "Hostile"):
         super().__init__(40, 1, 3)
-        self.name = "Spider"
-        self.health = 5
+        self.name : str = "Spider"
+        self.health : int = 5
 
 """
 =============================Class option=============================
 """
 
 class Option:
-    def __init__(self):
-        self.text = "Text"
-        self.answer = "Dialogue class here, leave"
-    def action(self):
+    def __init__(self : "Option"):
+        self.text : str = "Text"
+        self.answer : str = "Dialogue class here, leave"
+    def action(self : "Option"):
         pass
 
 """
@@ -183,9 +219,9 @@ class Option:
 """
 
 class Dialogue:
-    def __init__(self):
-        self.mainText = "Main Text"
-        self.options = []
+    def __init__(self : "Dialogue"):
+        self.mainText : str = "Main Text"
+        self.options : list[Option] = []
 
 """
 =============================Items=============================
@@ -233,13 +269,15 @@ class LongIronSword(Weapon):
 =============================Npcs=============================
 """
 
-class Npc(Entity):
+
+class Friendly(Npc):
     def __init__(self):
         super().__init__("NPC", 100)
         self.dialogues = []
     def talk(self):
         Player.Status.TalkingWith = self
         for dialogue in self.dialogues:
+            clear()
             shouldLeave = False
             print(f"{Color.Regular.Purple}{dialogue.mainText}")
 
@@ -269,7 +307,16 @@ class Npc(Entity):
                 Player.Status.TalkingWith = None
                 break
 
-class John(Npc):
+class FullNpc(Friendly, Hostile):
+    def __init__(self, name : str, health : int, minDamage : int, maxDamage : int, reward : int):
+        self.name = name
+        self.health = health
+        self.minDamage = minDamage
+        self.maxDamage = maxDamage
+        self.reward = reward
+        self.dialogues = []
+
+class John(Friendly):
     class BlackSmithShop:
         Items = [ShortIronSword, LongIronSword]
 
@@ -305,7 +352,7 @@ class John(Npc):
             John.JDialogue(), 
             ]
 
-class JohnWife(Npc):
+class JohnWife(Friendly):
     class First(Dialogue):
         class Why(Option):
             def __init__(self):
@@ -333,7 +380,7 @@ class JohnWife(Npc):
             JohnWife.First(),
             ]
 
-class JohnDog(Npc, Enemy):
+class JohnDog(FullNpc):
     class OnlyDialogue(Dialogue):
         class Pet(Option):
             def __init__(self):
@@ -367,14 +414,10 @@ class JohnDog(Npc, Enemy):
             ]
 
     def __init__(self):
-        self.name = "Rafan"
-        self.health = 99999999999
-        self.minDamage = 99999999999
-        self.maxDamage = 99999999999
-        self.reward = 0
+        super().__init__("Rafan", 99999999999, 99999999999, 999999999999, 0)
         self.dialogues = [JohnDog.OnlyDialogue()]
 
-class Vaclav(Npc):
+class Vaclav(Friendly):
     class Predstaveni(Dialogue):
         pass
     
@@ -382,10 +425,7 @@ class Vaclav(Npc):
         super().__init__()
         self.name = "Sír Lajky"
         self.health = 300
-        self.dialogues = [
-
-        ]
-    pass
+        self.dialogues = []
 """
 =============================Static player class=============================
 because this is singleplayer
@@ -396,20 +436,23 @@ class Player:
     Hp : int = 100
     Coin : int = 0
     class Status:
-        Location : "Location" | None = None
-        TalkingWith : "Npc" | None = None
-        FightingWith : "Enemy" | None = None
+        Location : "Location" = None
+        TalkingWith : "Friendly" = None
+        FightingWith : "Hostile" = None
 
     class Inventory:
-        Items = []
-        Armor = []
-        EquippedWeapon = None
+        Items : list[Item] = []
+        Armor : list = []
+        EquippedWeapon : "Weapon" = None
 
     @staticmethod
     def removeCoin(number : int) -> None:
         Player.Coin = Player.Coin - number
         if Player.Coin < 0:
             Player.Coin = 0
+
+    def attack(entity : "Npc"):
+        entity.health = entity.health - Player.Inventory.EquippedWeapon.damage
 
     @staticmethod
     def stats() -> None:
@@ -446,7 +489,7 @@ class Game:
         Game.status = ""
         Game.loop()
 
-    def loop():
+    def loop() -> None:
         while True:
             clear()
             Player.stats()
@@ -495,13 +538,13 @@ class Game:
                 case "talk":
                     for npc in Player.Status.Location.npcs:
                         if npc.name == args[1] or str(index) == args[1]:
-                            npc.talk()
+                            Friendly.talk(npc)
                             break
                         index += 1
                 case "fight":
                     for enemy in Player.Status.Location.enemies:
                         if enemy.name == args[1] or str(index) == args[1]:
-                            enemy.fight()
+                            Hostile.fight(enemy)
                             break
                         index += 1
 
