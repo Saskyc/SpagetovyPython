@@ -132,6 +132,16 @@ class Blacksmith(Location):
         super().__init__()
         self.name : str = "Blacksmith"
 
+class Cesta(Location):
+    def __init__(self : "Location"):
+        super().__init__()
+        self.name : str = "Cesta"
+
+class Cave(Location):
+    def __init__(self : "Location"):
+        super().__init__()
+        self.name : str = "Cave"
+
 """
 =============================DATA (Structs)=============================
 """
@@ -234,6 +244,12 @@ class Spider(Hostile):
         super().__init__(40, 1, 3)
         self.name : str = "Spider"
         self.health : int = 5
+
+class Zombie(Hostile):
+    def __init__(self : "Hostile"):
+        super().__init__(60, 5, 15)
+        self.name : str = "Zombie"
+        self.health : int = 20
 
 """
 =============================Class option=============================
@@ -509,15 +525,23 @@ class Game:
         Player.Status.Location = location
 
         location = Blacksmith()
+        Game.locations.append(location)
+
         location.locations.append(Game.locations[0])
+        Game.locations[0].locations.append(location)
         location.npcs.append(John())
         location.npcs.append(JohnDog())
         location.npcs.append(JohnWife())
-        
 
-        location.enemies.append(Spider())
+        location = Cesta()
         Game.locations.append(location)
-        Player.Status.Location.locations.append(location)
+        location.locations.append(Game.locations[0])
+        Game.locations[0].locations.append(location)
+        location.enemies.append(Spider())
+        location.enemies.append(Spider())
+        location.enemies.append(Zombie())
+        location.enemies.append(Spider())
+        location.enemies.append(Spider())
         
 
         Game.status = ""
