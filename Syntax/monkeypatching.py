@@ -1,3 +1,5 @@
+from forbiddenfruit import curse
+
 def __iter__(self : int):
     for u in str(self):
         yield int(u)

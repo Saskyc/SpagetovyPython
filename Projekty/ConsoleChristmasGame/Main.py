@@ -1,4 +1,5 @@
 from random import Random
+import enum
 clear = lambda : print("\n"*100)
 
 class Color:
@@ -70,6 +71,37 @@ class Color:
                 Purple = "\x1b[1;105m"
                 Cyan = "\x1b[1;106m"
                 White = "\x1b[1;107m"
+
+
+
+class Text:
+    lang = enum.Enum("Language", ["Czech", "English"])
+    all : dict[str, dict[str, str]] =  {
+        "ComOver": {
+            lang.Czech: f"{Color.Regular.Green}Přehled příkazů:\n go <lokace>\n talk <npc>\n fight <nepřítel>{Color.Reset}",
+            lang.English: f"{Color.Regular.Green}Command overviews:\n go <location>\n talk <npc>\n fight <enemy>{Color.Reset}",
+        },
+
+        "NoNpcs": {
+            lang.Czech: f"{Color.Regular.Red}Žádné npc se kterými mluvit{Color.Reset}",
+            lang.English: f"{Color.Regular.Red}No Npcs to talk with{Color.Reset}",
+        },
+
+        "SomeNpcs": {
+            lang.Czech: f"{Color.Regular.Purple}Npcs, se kterými lze mluvit{Color.Reset}",
+            lang.English: f"{Color.Regular.Purple}Npcs to talk with:{Color.Reset}",
+        },
+    }
+
+
+
+    @staticmethod
+    def get(key : str, lang : str) -> str:
+        return Text.all[key][lang]
+
+    @staticmethod
+    def print(key: str, lang: str) -> None:
+        print(Text.get(key, lang))
 
 """
 =============================Locations=============================
@@ -308,7 +340,7 @@ class Friendly(Npc):
                 break
 
 class FullNpc(Friendly, Hostile):
-    def __init__(self, name : str, health : int, minDamage : int, maxDamage : int, reward : int):
+    def __init__(self, name : str, health : int, minDamage : int, maxDamage : int, reward : int) -> None:
         self.name = name
         self.health = health
         self.minDamage = minDamage
@@ -371,7 +403,7 @@ class JohnWife(Friendly):
             self.options = [
                 JohnWife.First.Why, 
                 JohnWife.First.Leave
-                ]
+            ]
 
     def __init__(self):
         super().__init__()
@@ -466,7 +498,9 @@ class Player:
 class Game:
     status = None
     locations = []
+    language = Text.lang.English
 
+    @staticmethod
     def start() -> None:
         Player.Inventory.EquippedWeapon = Stick()
 
@@ -489,11 +523,12 @@ class Game:
         Game.status = ""
         Game.loop()
 
+    @staticmethod
     def loop() -> None:
         while True:
             clear()
             Player.stats()
-            print(f"{Color.Regular.Green}Command overviews:\n go location\n talk npc\n fight enemy{Color.Reset}")
+            Text.print("ComOver", Game.language)
 
             if len(Player.Status.Location.locations) == 0:
                 print(f"{Color.Regular.Red}No location to go to")
@@ -505,16 +540,16 @@ class Game:
                     index += 1
 
             if len(Player.Status.Location.npcs) == 0:
-                print(f"{Color.Regular.Red}No Npcs to talk with")
+                Text.print("NoNpcs", Game.language)
             else:
-                print(f"{Color.Regular.Purple}Npcs to talk with:")
+                Text.print("SomeNpcs", Game.language)
                 index = 0
                 for npc in Player.Status.Location.npcs:
                     print(f" {Color.Bold.Purple}({index}) {npc.name}")
                     index += 1
 
             if len(Player.Status.Location.enemies) == 0:
-                print(f"{Color.Regular.Red}No Enmies to fight with")
+                print(f"{Color.Regular.Red}No Enemies to fight with")
             else:
                 print(f"{Color.Regular.Red}Enemies to fight with:")
                 index = 0
