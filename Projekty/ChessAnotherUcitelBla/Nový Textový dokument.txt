@@ -1,0 +1,3 @@
+python dama.py --mode host --port 50007 --name "Franta Novák"
+
+python dama.py --mode client --host <IP_adresa_hosta> --port 50007 --name "Pepa Svoboda"
