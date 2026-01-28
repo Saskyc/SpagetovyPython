@@ -1,6 +1,7 @@
 from .Npc import Npc
 from .Player import Player
 from .Text import Color
+from .Text import clear
 from random import Random
 
 class Hostile(Npc):
@@ -19,10 +20,10 @@ class Hostile(Npc):
         print(f"{Color.Regular.Purple}Akce:\n- Attack\n- Leave\n- Nothing")
 
     @staticmethod
-    def attack(self : "Hostile") -> None:
+    def attack(self : "Hostile", player : "Player") -> None:
         if self.health <= 0:
             return
-        Player.Hp = Player.Hp - Random.randint(Random(), self.minDamage, self.maxDamage)
+        player.Hp = player.Hp - Random.randint(Random(), self.minDamage, self.maxDamage)
 
     class Evaluator:
         @staticmethod
@@ -48,37 +49,37 @@ class Hostile(Npc):
             return False
 
         @staticmethod
-        def EvaluateMyself(self : "Hostile") -> bool:
+        def EvaluateMyself(self : "Hostile", player : "Player") -> bool:
             if self.health > 0:
                 return False
             
-            Player.Coin = Player.Coin + self.reward
-            Player.Status.Location.enemies.remove(self)
+            player.Coin = player.Coin + self.reward
+            player.status.Location.enemies.remove(self)
             return True
 
         @staticmethod
-        def EvaluatePlayer(self : "Hostile") -> bool:
-            if Player.Hp > 0:
+        def EvaluatePlayer(self : "Hostile", player : "Player") -> bool:
+            if player.Hp > 0:
                 return False
             
-            Player.removeCoin(self.reward * 2)
+            player.removeCoin(self.reward * 2)
             return True
 
     @staticmethod
-    def print(self : "Hostile") -> None:
+    def print(self : "Hostile", player : "Player") -> None:
         clear()
-        Player.stats()
+        player.stats()
         Hostile.stats(self)
         Hostile.printAction()
 
     @staticmethod
-    def fight(self : "Hostile") -> None:
-        Player.Status.FightingWith = self
+    def fight(self : "Hostile", player : "Player") -> None:
+        player.status.FightingWith = self
         while True:
             Hostile.print(self)
 
             if Hostile.Evaluator.Evaluate(self):
-                Player.Status.FightingWith = None
+                player.status.FightingWith = None
                 break
 
             Hostile.attack(self)

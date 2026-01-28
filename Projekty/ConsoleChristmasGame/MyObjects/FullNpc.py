@@ -1,4 +1,5 @@
-
+from .Friendly import Friendly
+from .Hostile import Hostile
 
 class FullNpc(Friendly, Hostile):
     def __init__(self, name : str, health : int, minDamage : int, maxDamage : int, reward : int) -> None:

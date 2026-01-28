@@ -7,8 +7,8 @@ class Friendly(Npc):
     def __init__(self):
         super().__init__("NPC", 100)
         self.dialogues = []
-    def talk(self):
-        Player.Status.TalkingWith = self
+    def talk(self, player : "Player"):
+        player.status.TalkingWith = self
         for dialogue in self.dialogues:
             clear()
             shouldLeave = False
@@ -37,5 +37,5 @@ class Friendly(Npc):
                 break
 
             if shouldLeave:
-                Player.Status.TalkingWith = None
+                player.status.TalkingWith = None
                 break
