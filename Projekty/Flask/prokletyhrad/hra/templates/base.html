@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Prokletý hrad{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header class="site-header">
+  <a href="{{ url_for('hra') }}" class="logo">⚔️ Prokletý hrad</a>
+  {% if session.get('hrdina') %}
+  <nav class="header-nav">
+    <a href="{{ url_for('hra') }}">🗺️ Mapa</a>
+    <a href="{{ url_for('inventar_stranka') }}">🎒 Inventář</a>
+    <a href="{{ url_for('reset') }}" onclick="return confirm('Opravdu začít znovu?')">↩ Reset</a>
+  </nav>
+  {% endif %}
+</header>
+
+{% with zpravy = get_flashed_messages(with_categories=true) %}
+  {% if zpravy %}
+  <div class="flash-list">
+    {% for kat, zprava in zpravy %}
+    <div class="flash flash-{{ kat }}">{{ zprava }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endwith %}
+
+<main class="main">
+  {% block obsah %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  Prokletý hrad · Flask adventure game
+</footer>
+
+</body>
+</html>

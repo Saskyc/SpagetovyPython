@@ -1,0 +1,64 @@
+`app.py` was already updated in the previous step. The current issue is with the HTML structure.
+
+I need you to redesign the HTML with the following requirements:
+
+* The HTML must stay **very simple and self-contained** so I can easily add new story pages without needing any JavaScript.
+* Each story page will be a separate `.html` file.
+* Navigation between pages should be done using standard HTML links (`<a href="...">`), not JavaScript.
+
+### Page Structure Requirements:
+
+Each page should include:
+
+1. **Title of the scene**
+
+   * Displayed at the top (e.g., "Under Tree")
+
+2. **Main image**
+
+   * Shown in a styled frame/container
+   * The frame should handle image sizing automatically (so I only need to paste the image URL)
+
+3. **Scene description**
+
+   * A paragraph below the title describing the situation
+
+4. **Choices / options**
+
+   * Each option should:
+
+     * Be clickable
+     * Include a small framed image
+     * Link to another `.html` file
+
+### Example Scenario:
+
+For a page called **"Under Tree"**, it should display:
+
+* Title: "Under Tree"
+* Main image (framed)
+* Description text
+* Three choices:
+
+  * "Climb Tree" → links to `OnTopOfTree.html`
+  * "Go to Car" → links to `Car.html`
+  * "Look at Campfire" → links to `Campfire.html`
+
+Each choice should also include its own small image inside a frame.
+
+### Styling:
+
+* Keep the current CSS style (simple and visually pleasant)
+* Only make small improvements if needed
+* Ensure the layout is clean and consistent across all pages
+
+### Goal:
+
+I want to be able to create new story pages by copying a single HTML template, changing:
+
+* Title
+* Text
+* Image URLs
+* Links to other pages
+
+No JavaScript should be required at any point.

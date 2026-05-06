@@ -1,0 +1,52 @@
+I have made these changes, so location shows where the user will go:
+
+index_hra.html:
+<!-- Pohyb -->
+<div class="pohyb-sekce">
+  <h3>Kam půjdeš?</h3>
+    <div class="volby">
+      {% for smer, cil in sousede.items() %}
+        <a href="{{ url_for('pohyb', smer=smer) }}" class="btn btn-volba">
+          {{ cil.nazev }}
+        </a>
+      {% endfor %}
+  </div>
+</div>
+
+mapa.py in class Lokace:
+def sousedni_lokace(self, mapa) -> dict[str, Lokace]:
+    return {
+        smer: mapa.get(cil)
+        for smer, cil in self.sousede.items()
+        if cil
+    }
+
+app.py in route /hra:
+return render_template(
+        "index_hra.html",
+        hrdina=hrdina,
+        lokace=lokace,
+        sousede=lokace.sousedni_lokace(mapa),
+        predmety_lokace=predmety_lokace,
+        predmety_hrdiny=predmety_hrdiny,
+        smery=Mapa.SMER_NAZVY,
+)
+
+I want to also make it possible to add talkable NPC with svet.json
+
+Lokace will implement them like this:
+"hrad_kaple": {
+      "id": "hrad_kaple",
+      "nazev": "Hradní kaple",
+      "popis": "Kamenná kaple s vitráží. Lavice jsou převrácené. Na oltáři leží starý pergamen – zřejmě část mapy hradu.",
+      "sousede": { "sever": null, "vychod": null, "zapad": "hrad_nastupiste", "jih": null },
+      "predmety": ["mapa_hradu"],
+      "npc": [],
+      "nepratel": null,
+      "vyzaduje_predmet": null,
+      "win_condition": false
+},
+
+now also like "Nepratele" and under that is defined everything I want to have "NonPlayableCharacters" list.
+
+Codex will review this code once you are done.

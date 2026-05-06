@@ -8,7 +8,7 @@ app = Flask(__name__)
 @app.route("/")
 def domov():
     return render_template("index.html",
-                        nigger = "Omg",
+                        var = "Omg",
                         page_text = "TEST OMG OMG",)
 
 app.run()

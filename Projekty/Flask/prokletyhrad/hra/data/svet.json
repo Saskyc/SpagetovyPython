@@ -1,0 +1,355 @@
+{
+  "lokace": {
+    "vesnice": {
+      "id": "vesnice",
+      "nazev": "Tichá Víska",
+      "popis": "Malá vesnička u úpatí hor. Vesničané se tě vyhýbají pohledem – v krčmě se šeptá o prokletém hradu na severu. Na náměstíčku stojí studna a vývěska s varováním.",
+      "sousede": { "sever": "les", "vychod": "pristav", "zapad": "vesnice_louka", "jih": "vesnice_kovarna" },
+      "predmety": [],
+      "npc": [],
+      "nepratel": null,
+      "vyzaduje_predmet": null,
+      "win_condition": false
+    },
+    "vesnice_louka": {
+      "id": "vesnice_louka",
+      "nazev": "Krásná vesniční louka",
+      "popis": "Malá louka na kraji vesnice s krásně zelenou trávou.",
+      "sousede": { "sever": null, "vychod": "vesnice", "zapad": null, "jih": null },
+      "predmety": [],
+      "npc": [],
+      "nepratel": null,
+      "vyzaduje_predmet": null,
+      "win_condition": false
+    },
+    "vesnice_kovarna": {
+      "id": "vesnice_kovarna",
+      "nazev": "Tichá Víska",
+      "popis": "Kovárna sira X",
+      "sousede": { "sever": "vesnice", "vychod": null, "zapad": null, "jih": null },
+      "predmety": [],
+      "npc": [],
+      "nepratel": null,
+      "vyzaduje_predmet": null,
+      "win_condition": false
+    },
+
+    "les": {
+      "id": "les",
+      "nazev": "Temný les",
+      "popis": "Koruny stromů blokují světlo. Vzduch voní mechem a shnilým dřevem. Stezka se vine mezi kořeny – na jednom z nich leží starý meč.",
+      "sousede": { "sever": "hory", "vychod": null, "zapad": null, "jih": "vesnice" },
+      "predmety": [],
+      "npc": [],
+      "nepratel": "vlk",
+      "vyzaduje_predmet": null,
+      "win_condition": false
+    },
+    "hory": {
+      "id": "hory",
+      "nazev": "Kamenné hory",
+      "popis": "Příkré srázy a ledový vítr. Stezka se zužuje na skalní výběžek. V dálce za mlhou se tyčí silueta hradu. Pod jedním kamenem se třpytí kovový předmět.",
+      "sousede": { "sever": "hrad_branka", "vychod": "ruiny", "zapad": null, "jih": "les" },
+      "predmety": [],
+      "npc": [],
+      "nepratel": "horsky_troll",
+      "vyzaduje_predmet": null,
+      "win_condition": false
+    },
+    "ruiny": {
+      "id": "ruiny",
+      "nazev": "Staré ruiny",
+      "popis": "Zbytky dávného chrámu. Sloupy leží zkřížené přes sebe. V rohu stojí neporušený oltář – a na něm lesklý klíč.",
+      "sousede": { "sever": null, "vychod": null, "zapad": "hory", "jih": "pristav" },
+      "predmety": [],
+      "npc": [],
+      "nepratel": "kostlivec",
+      "vyzaduje_predmet": null,
+      "win_condition": false
+    },
+    "pristav": {
+      "id": "pristav",
+      "nazev": "Rybářský přístav",
+      "popis": "Dřevěné molo se houpá na vlnách. Rybáři opravují sítě a nevšímají si tě. V jednom ze skladišť je otevřeno.",
+      "sousede": { "sever": "ruiny", "vychod": null, "zapad": "vesnice", "jih": null },
+      "predmety": [],
+      "npc": [],
+      "nepratel": null,
+      "vyzaduje_predmet": null,
+      "win_condition": false
+    },
+
+    "hrad_branka": {
+      "id": "hrad_branka",
+      "nazev": "Hradní brána",
+      "popis": "Masivní kovaná brána se tyčí před tebou. Je zamčená na mohutný zámek. Vedle brány stojí zrezlá mříž – za ní vidíš nádvoří.",
+      "sousede": { "sever": "hrad_nastupiste", "vychod": null, "zapad": null, "jih": "hory" },
+      "predmety": [],
+      "npc": [],
+      "nepratel": "straz",
+      "vyzaduje_predmet": "zlaty_klic",
+      "vyzaduje_text": "Brána je zamčená. Potřebuješ zlatý klíč.",
+      "win_condition": false
+    },
+    "hrad_nastupiste": {
+      "id": "hrad_nastupiste",
+      "nazev": "Hradní nádvoří",
+      "popis": "Zpustlé nádvoří. Plevel roste mezi dlažebními kameny. Uprostřed stojí kamenná fontána – vyschlá. Na severní straně jsou tři budovy: věž, kaple a zbrojnice.",
+      "sousede": { "sever": "hrad_vez", "vychod": "hrad_kaple", "zapad": "hrad_zbrojnice", "jih": "hrad_branka" },
+      "predmety": ["lektvar_zivota"],
+      "npc": [],
+      "nepratel": "hradni_rytir",
+      "vyzaduje_predmet": null,
+      "win_condition": false
+    },
+    "hrad_kaple": {
+      "id": "hrad_kaple",
+      "nazev": "Hradní kaple",
+      "popis": "Kamenná kaple s vitráží. Lavice jsou převrácené. Na oltáři leží starý pergamen – zřejmě část mapy hradu.",
+      "sousede": { "sever": null, "vychod": null, "zapad": "hrad_nastupiste", "jih": null },
+      "predmety": ["mapa_hradu"],
+      "npc": [],
+      "nepratel": null,
+      "vyzaduje_predmet": null,
+      "win_condition": false
+    },
+    "hrad_zbrojnice": {
+      "id": "hrad_zbrojnice",
+      "nazev": "Zbrojnice",
+      "popis": "Stěny pokryté zbraněmi. Většina je zrezlá a nepoužitelná – ale jeden meč na konci místnosti září jako nový. Jako by čekal právě na tebe.",
+      "sousede": { "sever": null, "vychod": "hrad_nastupiste", "zapad": null, "jih": null },
+      "predmety": ["legendarni_mec"],
+      "npc": [],
+      "nepratel": "zbrojnicky_duch",
+      "vyzaduje_predmet": null,
+      "win_condition": false
+    },
+    "hrad_vez": {
+      "id": "hrad_vez",
+      "nazev": "Temná věž – Trůnní sál",
+      "popis": "Vrchol věže. Temný sál osvícený pochodněmi. Na trůně sedí Stínový Pán – vládce prokletí. Před ním leží Kámen Světla, který hledáš.",
+      "sousede": { "sever": null, "vychod": null, "zapad": null, "jih": "hrad_nastupiste" },
+      "predmety": [],
+      "npc": [],
+      "nepratel": "stinovy_pan",
+      "vyzaduje_predmet": null,
+      "win_condition": true
+    }
+  },
+
+  "predmety": {
+    "lektvar_zivota": {
+      "id": "lektvar_zivota",
+      "nazev": "Lektvar života",
+      "typ": "lektvar",
+      "popis": "Červená lahvička s bublinkami. Obnoví 30 životů.",
+      "efekt_zivoty": 30,
+      "efekt_utok": 0,
+      "efekt_obrana": 0,
+      "ikona": "🧪"
+    },
+    "lektvar_sily": {
+      "id": "lektvar_sily",
+      "nazev": "Lektvar síly",
+      "typ": "lektvar",
+      "popis": "Modrá lahvička. Dočasně zvýší útok o 10 – efekt trvá 1 souboj.",
+      "efekt_zivoty": 0,
+      "efekt_utok": 10,
+      "efekt_obrana": 0,
+      "ikona": "💙"
+    },
+    "mecic": {
+      "id": "mecic",
+      "nazev": "Rezavý mečík",
+      "typ": "zbran",
+      "popis": "Starý, ale stále ostrý. Zvyšuje útok o 8.",
+      "efekt_zivoty": 0,
+      "efekt_utok": 8,
+      "efekt_obrana": 0,
+      "ikona": "🗡️"
+    },
+    "legendarni_mec": {
+      "id": "legendarni_mec",
+      "nazev": "Legendární meč",
+      "typ": "zbran",
+      "popis": "Zářivá čepel s runovými nápisy. Útok +20.",
+      "efekt_zivoty": 0,
+      "efekt_utok": 20,
+      "efekt_obrana": 0,
+      "ikona": "⚔️"
+    },
+    "brno": {
+      "id": "brno",
+      "nazev": "Kožené brnění",
+      "typ": "brneni",
+      "popis": "Tlusté kůže chrání tělo. Obrana +10.",
+      "efekt_zivoty": 0,
+      "efekt_utok": 0,
+      "efekt_obrana": 10,
+      "ikona": "🛡️"
+    },
+    "zlaty_klic": {
+      "id": "zlaty_klic",
+      "nazev": "Zlatý klíč",
+      "typ": "klicovy",
+      "popis": "Starý zlatý klíč s monogramem hradu. Otevře hradní bránu.",
+      "efekt_zivoty": 0,
+      "efekt_utok": 0,
+      "efekt_obrana": 0,
+      "ikona": "🗝️"
+    },
+    "mapa_hradu": {
+      "id": "mapa_hradu",
+      "nazev": "Mapa hradu",
+      "typ": "klicovy",
+      "popis": "Pergamen s půdorysem hradu. Ukazuje skryté chodby – ne nutně potřebná, ale užitečná.",
+      "efekt_zivoty": 0,
+      "efekt_utok": 0,
+      "efekt_obrana": 0,
+      "ikona": "🗺️"
+    }
+  },
+
+  "nepratele": {
+    "vlk": {
+      "id": "vlk",
+      "nazev": "Divoký vlk",
+      "zivoty": 30,
+      "utok": 8,
+      "obrana": 2,
+      "odmena_predmet": "lektvar_zivota",
+      "ikona": "🐺"
+    },
+    "horsky_troll": {
+      "id": "horsky_troll",
+      "nazev": "Horský troll",
+      "zivoty": 50,
+      "utok": 14,
+      "obrana": 5,
+      "odmena_predmet": null,
+      "ikona": "👹"
+    },
+    "kostlivec": {
+      "id": "kostlivec",
+      "nazev": "Oživlý kostlivec",
+      "zivoty": 25,
+      "utok": 10,
+      "obrana": 3,
+      "odmena_predmet": "lektvar_sily",
+      "ikona": "💀"
+    },
+    "straz": {
+      "id": "straz",
+      "nazev": "Prokletá stráž",
+      "zivoty": 40,
+      "utok": 12,
+      "obrana": 6,
+      "odmena_predmet": null,
+      "ikona": "⚔️"
+    },
+    "hradni_rytir": {
+      "id": "hradni_rytir",
+      "nazev": "Hradní rytíř",
+      "zivoty": 55,
+      "utok": 16,
+      "obrana": 8,
+      "odmena_predmet": "lektvar_zivota",
+      "ikona": "🤺"
+    },
+    "zbrojnicky_duch": {
+      "id": "zbrojnicky_duch",
+      "nazev": "Zbrojnický duch",
+      "zivoty": 35,
+      "utok": 12,
+      "obrana": 4,
+      "odmena_predmet": null,
+      "ikona": "👻"
+    },
+    "stinovy_pan": {
+      "id": "stinovy_pan",
+      "nazev": "Stínový Pán",
+      "zivoty": 100,
+      "utok": 25,
+      "obrana": 10,
+      "odmena_predmet": null,
+      "ikona": "🌑"
+    },
+
+    "jeskyne_1_pavouk": {
+      "id": "jeskyne_1_pavouk",
+      "nazev": "Jeskynní pavouk",
+      "zivoty": 50,
+      "utok": 10,
+      "obrana": 5,
+      "odmena_predmet": "",
+      "ikona": "\uD83D\uDD77\uFE0F"
+    },
+    "jeskyne_1_zombie": {
+      "id": "jeskyne_1_zombie",
+      "nazev": "Jeskynní Zombie",
+      "zivoty": 60,
+      "utok": 30,
+      "obrana": 5,
+      "odmena_predmet": "",
+      "ikona": "\uD83D\uDD77\uFE0F"
+    },
+    "jeskyne_1_kostlivec": {
+      "id": "jeskyne_1_kostlivec",
+      "nazev": "Jeskynní Kostlivec",
+      "zivoty": 30,
+      "utok": 5,
+      "obrana": 40,
+      "odmena_predmet": "",
+      "ikona": "\uD83D\uDD77\uFE0F"
+    }
+  },
+  "NonPlayableCharacters": {
+    "franta": {
+      "id": "franta",
+      "nazev": "Franta",
+      "start": "start",
+      "dialog": {
+        "start": {
+          "text": "Ahoj, co chceš?",
+          "moznosti": [
+            {
+              "id": "moznost_1",
+              "text": "Chci si promluvit",
+              "next": "rozhovor",
+              "podminky": {},
+              "efekty": {}
+            },
+            {
+              "id": "moznost_2",
+              "text": "Máš něco pro mě?",
+              "next": "quest",
+              "podminky": {},
+              "efekty": {}
+            }
+          ]
+        },
+        "rozhovor": {
+          "text": "No tak mluv.",
+          "moznosti": [
+            {
+              "text": "Zpět",
+              "next": "start"
+            }
+          ]
+        },
+        "quest": {
+          "text": "Přines mi dřevo.",
+          "moznosti": [
+            {
+              "text": "OK",
+              "next": "start",
+              "efekty": {
+                "start_quest": "drevo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

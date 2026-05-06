@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Prokletý hrad – Začátek{% endblock %}
+
+{% block obsah %}
+<div class="uvod-wrap">
+  <div class="uvod-box">
+    <div class="uvod-ikona">🏰</div>
+    <h1 class="uvod-nadpis">Prokletý hrad</h1>
+    <p class="uvod-podtitul">
+      Temné prokletí se snáší nad krajem. Říká se, že ve věži prokletého hradu
+      spočívá <strong>Kámen Světla</strong> – jediný artefakt schopný prokletí zlomit.
+      Vydej se na cestu, prozkoumej svět, poražuj nepřátele a přines Kámen zpět.
+    </p>
+
+    <form method="POST" action="{{ url_for('index') }}" class="start-form">
+      <label for="jmeno" class="form-label">Jak se jmenuješ, hrdino?</label>
+      <div class="form-row">
+        <input type="text" id="jmeno" name="jmeno" class="form-input"
+               placeholder="Zadej své jméno…" maxlength="30" required autofocus>
+        <button type="submit" class="btn btn-primary">Vyrazit →</button>
+      </div>
+    </form>
+
+    <div class="uvod-tipy">
+      <h3>Jak hrát</h3>
+      <ul>
+        <li>Pohybuj se pomocí tlačítek směrů (Sever, Jih, Východ, Západ).</li>
+        <li>Sbírej předměty a buduj inventář (max 8 míst).</li>
+        <li>V souboji útočíš, používáš předměty nebo utíkáš.</li>
+        <li>Najdi <strong>Zlatý klíč</strong> – bez něj se do hradu nedostaneš.</li>
+        <li>Poraz Stínového Pána a přines Kámen Světla!</li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

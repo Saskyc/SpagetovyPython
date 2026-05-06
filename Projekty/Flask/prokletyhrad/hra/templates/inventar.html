@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Inventář – {{ hrdina.jmeno }}{% endblock %}
+
+{% block obsah %}
+<div class="inventar-wrap">
+  <h1 class="stranka-nadpis">🎒 Inventář – {{ hrdina.jmeno }}</h1>
+  <p class="inventar-kapacita">Obsazeno: {{ predmety|length }} / 8 slotů</p>
+
+  {% if predmety %}
+  <div class="inventar-grid">
+    {% for p in predmety %}
+    <div class="inv-karta typ-{{ p.typ }}">
+      <div class="inv-ikona">{{ p.ikona }}</div>
+      <div class="inv-info">
+        <strong>{{ p.nazev }}</strong>
+        <span class="inv-typ">{{ p.typ }}</span>
+        <p>{{ p.popis }}</p>
+        {% if p.efekt_zivoty %}
+        <small>❤️ +{{ p.efekt_zivoty }} životů</small>{% endif %}
+        {% if p.efekt_utok %}
+        <small>⚔️ +{{ p.efekt_utok }} útok</small>{% endif %}
+        {% if p.efekt_obrana %}
+        <small>🛡️ +{{ p.efekt_obrana }} obrana</small>{% endif %}
+      </div>
+      <div class="inv-akce">
+        <a href="{{ url_for('pouzit', predmet_id=p.id) }}" class="btn btn-sm btn-primary">Použít</a>
+        <a href="{{ url_for('vyhodit', predmet_id=p.id) }}" class="btn btn-sm btn-danger"
+           onclick="return confirm('Opravdu zahodit {{ p.nazev }}?')">Zahodit</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="prazdny-inventar">
+    <p>Inventář je prázdný. Hledej předměty v lokacích!</p>
+  </div>
+  {% endif %}
+
+  <a href="{{ url_for('hra') }}" class="btn btn-sec">← Zpět na mapu</a>
+</div>
+{% endblock %}

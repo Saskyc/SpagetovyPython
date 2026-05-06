@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}{% if vyhral %}Výhra!{% else %}Prohra{% endif %} – Prokletý hrad{% endblock %}
+
+{% block obsah %}
+<div class="konec-wrap">
+  {% if vyhral %}
+  <div class="konec-box konec-vyhral">
+    <div class="konec-ikona">🏆</div>
+    <h1>Vítězství!</h1>
+    <p>
+      {% if hrdina %}Hrdino <strong>{{ hrdina.jmeno }}</strong>, {% endif %}
+      porazil jsi Stínového Pána a přinesl Kámen Světla zpět do světla.
+      Prokletí je zlomeno. Kraj ti bude věčně vděčný.
+    </p>
+  </div>
+  {% else %}
+  <div class="konec-box konec-prohra">
+    <div class="konec-ikona">💀</div>
+    <h1>Padl jsi v boji</h1>
+    <p>
+      {% if hrdina %}Hrdino <strong>{{ hrdina.jmeno }}</strong>, {% endif %}
+      tvé životy klesly na nulu. Prokletí hradu zůstává.
+      Ale smrt není konec – zkus to znovu!
+    </p>
+  </div>
+  {% endif %}
+
+  <div class="konec-akce">
+    <a href="{{ url_for('reset') }}" class="btn btn-primary btn-velky">↩ Hrát znovu</a>
+  </div>
+</div>
+{% endblock %}

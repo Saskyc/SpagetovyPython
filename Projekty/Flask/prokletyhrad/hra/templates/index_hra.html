@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}{{ lokace.nazev }} – Prokletý hrad{% endblock %}
+
+{% block obsah %}
+<div class="hra-layout">
+
+  <!-- Levý panel: postava -->
+  <aside class="panel-hrdina">
+    <h2 class="panel-nadpis">⚔️ {{ hrdina.jmeno }}</h2>
+    <div class="stat-radek">
+      <span>❤️ Životy</span>
+      <span class="stat-hodnota">{{ hrdina.zivoty }}/{{ hrdina.max_zivoty }}</span>
+    </div>
+    <div class="hp-bar">
+      <div class="hp-fill" style="width: {{ (hrdina.zivoty / hrdina.max_zivoty * 100)|int }}%"></div>
+    </div>
+    <div class="stat-radek">
+      <span>⚔️ Útok</span>
+      <span class="stat-hodnota">{{ hrdina.utok }}</span>
+    </div>
+    <div class="stat-radek">
+      <span>🛡️ Obrana</span>
+      <span class="stat-hodnota">{{ hrdina.obrana }}</span>
+    </div>
+
+    <div class="panel-sekce">
+      <strong>🎒 Inventář ({{ predmety_hrdiny|length }}/8)</strong>
+      {% if predmety_hrdiny %}
+        <ul class="inv-mini">
+          {% for p in predmety_hrdiny %}
+          <li>{{ p.ikona }} {{ p.nazev }}</li>
+          {% endfor %}
+        </ul>
+        <a href="{{ url_for('inventar_stranka') }}" class="btn btn-sm btn-sec">Otevřít inventář</a>
+      {% else %}
+        <p class="prazdny-text">Inventář je prázdný.</p>
+      {% endif %}
+    </div>
+  </aside>
+
+  <!-- Střed: lokace -->
+  <section class="panel-lokace">
+    <h1 class="lokace-nazev">{{ lokace.nazev }}</h1>
+    <p class="lokace-popis">{{ lokace.popis }}</p>
+
+    <!-- Předměty v lokaci -->
+    {% if predmety_lokace %}
+    <div class="lokace-predmety">
+      <h3>Nalezené předměty:</h3>
+      <div class="predmety-grid">
+        {% for p in predmety_lokace %}
+        <div class="predmet-karta">
+          <span class="predmet-ikona">{{ p.ikona }}</span>
+          <div class="predmet-info">
+            <strong>{{ p.nazev }}</strong>
+            <small>{{ p.popis }}</small>
+          </div>
+          <a href="{{ url_for('sebrat', predmet_id=p.id) }}" class="btn btn-sm btn-primary">Sebrat</a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Pohyb -->
+    <div class="pohyb-sekce">
+      <h3>Kam půjdeš?</h3>
+
+      <div class="volby">
+        {% for smer, cil in sousede.items() %}
+          <a href="{{ url_for('pohyb', smer=smer) }}" class="btn btn-volba">
+            {{ cil.nazev }}
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}

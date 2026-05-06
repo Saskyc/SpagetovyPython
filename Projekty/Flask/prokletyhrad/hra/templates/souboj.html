@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Souboj! – Prokletý hrad{% endblock %}
+
+{% block obsah %}
+<div class="souboj-wrap">
+  <h1 class="souboj-nadpis">⚔️ Souboj!</h1>
+
+  <div class="souboj-arena">
+
+    <!-- Hrdina -->
+    <div class="bojovnik bojovnik-hrdina">
+      <div class="bojovnik-ikona">🧙</div>
+      <h2>{{ hrdina.jmeno }}</h2>
+      <div class="stat-radek">
+        <span>❤️</span>
+        <span>{{ hrdina.zivoty }}/{{ hrdina.max_zivoty }}</span>
+      </div>
+      <div class="hp-bar">
+        <div class="hp-fill" style="width: {{ (hrdina.zivoty / hrdina.max_zivoty * 100)|int }}%"></div>
+      </div>
+      <div class="stat-radek"><span>⚔️ Útok</span><span>{{ hrdina.utok }}</span></div>
+      <div class="stat-radek"><span>🛡️ Obrana</span><span>{{ hrdina.obrana }}</span></div>
+    </div>
+
+    <div class="souboj-vs">VS</div>
+
+    <!-- Nepřítel -->
+    <div class="bojovnik bojovnik-nepritel">
+      <div class="bojovnik-ikona">{{ nepritel.ikona }}</div>
+      <h2>{{ nepritel.nazev }}</h2>
+      <div class="stat-radek">
+        <span>❤️</span>
+        <span>{{ nepritel.zivoty }}/{{ nepritel.max_zivoty }}</span>
+      </div>
+      <div class="hp-bar">
+        <div class="hp-fill hp-nepritel" style="width: {{ (nepritel.zivoty / nepritel.max_zivoty * 100)|int }}%"></div>
+      </div>
+      <div class="stat-radek"><span>⚔️ Útok</span><span>{{ nepritel.utok }}</span></div>
+      <div class="stat-radek"><span>🛡️ Obrana</span><span>{{ nepritel.obrana }}</span></div>
+    </div>
+
+  </div>
+
+  <!-- Výsledky kola -->
+  {% if zprava_hrdiny %}
+  <div class="souboj-log">
+    {% if zprava_hrdiny %}<p class="log-hrdina">🧙 {{ zprava_hrdiny }}</p>{% endif %}
+    {% if zprava_nepritele %}<p class="log-nepritel">{{ nepritel.ikona }} {{ zprava_nepritele }}</p>{% endif %}
+  </div>
+  {% endif %}
+
+  <!-- Akce -->
+  <form method="POST" action="{{ url_for('souboj_stranka') }}" class="souboj-akce">
+
+    <div class="akce-skupina">
+      <h3>Základní akce</h3>
+      <button type="submit" name="akce" value="utok" class="btn btn-primary btn-velky">
+        ⚔️ Útočit
+      </button>
+      <button type="submit" name="akce" value="utec" class="btn btn-sec btn-velky">
+        🏃 Utéct
+      </button>
+    </div>
+
+    {% if predmety %}
+    <div class="akce-skupina">
+      <h3>Použít předmět</h3>
+      <div class="predmety-souboj">
+        {% for p in predmety %}
+        <button type="submit" name="akce" value="pouzit_{{ p.id }}" class="btn btn-predmet">
+          {{ p.ikona }} {{ p.nazev }}
+        </button>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+  </form>
+</div>
+{% endblock %}
