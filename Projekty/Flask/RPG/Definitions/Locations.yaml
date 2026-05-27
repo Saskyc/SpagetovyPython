@@ -1,6 +1,12 @@
-- jmeno: Test
+- id: 1
+  jmeno: Test
   x: 1
   y: 2
-- jmeno: Dalsi
+- id: 2
+  jmeno: Dalsi
   x: 1
   y: 3
+- id: 3
+  jmeno: Lokace
+  x: 1
+  y: 4

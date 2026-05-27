@@ -1,4 +1,6 @@
 from .Location import Location
+from .Hrdina import Hrdina
+from .Entity import Entity
 
 class World:
     def __init__(self):
@@ -11,3 +13,17 @@ class World:
             if location.x == x and location.y == y:
                 return location
         return None
+
+    def fight(self, plr : Hrdina, enemy : Entity):
+        print("Fighting started.")
+        while True:
+            inp = input("Attack/UseItem/Escape: ").lower()
+            if(inp == "attack"):
+                print("Attacking")
+                break
+            if(inp == "useitem"):
+                print("Use Item")
+                break
+            if(inp == "escape"):
+                print("Escape")
+                breakS
