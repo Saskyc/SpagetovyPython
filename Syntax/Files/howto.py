@@ -15,7 +15,7 @@ print(f"Obsah: {obsah}")
 
 #Přidání dalšího řádku
 with open("pozdrav.txt", "a", encoding="utf-8") as f:
-    f.write("Zdraví tvoje python aplikace.\nNegři")
+    f.write("Zdraví tvoje python aplikace\nNový text")
 print("Do souboru bylo přidáno")
 
 from pathlib import Path
