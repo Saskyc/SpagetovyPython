@@ -1,3 +1,7 @@
 class SerializableClass:
-    def __self__(self, id : int):
+    def __init__(self, id : int):
         self.id = id
+    def to_dict(self) -> dict:
+        return {
+            "id" : self.id,
+        }
