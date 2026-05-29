@@ -1,0 +1,175 @@
+# Svět: Zničená říše Aldoria
+# Pohyb: up=y+1, down=y-1, right=x+1, left=x-1
+# block: true = daný směr je ZABLOKOVÁN (zeď, propast, atd.)
+
+- id: 1
+  jmeno: "Vesnice Prahu"
+  popis: "Malá vesnice na okraji Temného lesa. Vyhořelé domy svědčí o nedávném nájezdu goblinů. U studny leží zrezivělý meč."
+  x: 0
+  y: 0
+  block:
+    up: false    # -> Temný les (0,1)
+    right: false # -> Tržiště (1,0)
+    down: true   # zeď
+    left: true   # zeď
+  enemies:
+    - name: "Goblin"
+      health: 30
+      attack: 8
+      defense: 2
+      loot_item: "Malý lektvar"
+  spawn_chance: 0.4
+
+- id: 2
+  jmeno: "Tržiště"
+  popis: "Opuštěné tržiště. Rozházené zboží a převrácené stánky. V jednom stánku najdeš použitelný štít."
+  x: 1
+  y: 0
+  block:
+    up: false    # -> Křižovatka (1,1)
+    right: false # -> Stará kovárna (2,0)
+    down: true
+    left: false  # -> Vesnice Prahu (0,0)
+  enemies: []
+  spawn_chance: 0.0
+
+- id: 3
+  jmeno: "Stará kovárna"
+  popis: "Kovárna trpaslíků, dávno opuštěná. Žár v peci ještě doutná. Na kovadlině leží tajemný meč s runami."
+  x: 2
+  y: 0
+  block:
+    up: false    # -> Okraj propasti (2,1)
+    right: true  # propast
+    down: true
+    left: false  # -> Tržiště (1,0)
+  enemies:
+    - name: "Ohnivý elementál"
+      health: 50
+      attack: 15
+      defense: 5
+      loot_item: "Runový meč"
+  spawn_chance: 0.7
+
+- id: 4
+  jmeno: "Temný les"
+  popis: "Hustý les opředený temnou magií. Stromy jsou zkroucené, vzduch páchne sírou. Slyšíš vlčí vytí."
+  x: 0
+  y: 1
+  block:
+    up: false    # -> Háj duchů (0,2)
+    right: false # -> Křižovatka (1,1)
+    down: false  # -> Vesnice Prahu (0,0)
+    left: true
+  enemies:
+    - name: "Temný vlk"
+      health: 40
+      attack: 12
+      defense: 3
+      loot_item: "Vlčí dráp"
+  spawn_chance: 0.6
+
+- id: 5
+  jmeno: "Křižovatka osudu"
+  popis: "Čtyřcestná křižovatka označená starým kamenem. Nápis praví: 'Jen ten kdo nese Pečeť krále, projde branou věčnosti.' Cesta na sever vede k hradu."
+  x: 1
+  y: 1
+  block:
+    up: false    # -> Hrad Aldoria (1,2)
+    right: false # -> Okraj propasti (2,1)
+    down: false  # -> Tržiště (1,0)
+    left: false  # -> Temný les (0,1)
+  enemies: []
+  spawn_chance: 0.0
+
+- id: 6
+  jmeno: "Okraj propasti"
+  popis: "Úzká stezka podél obrovské propasti. Dole se valí mlha. Na útesové římsě visí koža starého hrdiny s přilbou."
+  x: 2
+  y: 1
+  block:
+    up: true     # propast
+    right: true  # propast
+    down: false  # -> Stará kovárna (2,0)
+    left: false  # -> Křižovatka (1,1)
+  enemies:
+    - name: "Kamenný golem"
+      health: 60
+      attack: 18
+      defense: 10
+      loot_item: null
+  spawn_chance: 0.5
+
+- id: 7
+  jmeno: "Háj duchů"
+  popis: "Bílé stromy září v noci vlastním světlem. Duchové padlých vojáků tu bloudí. Jeden duch ti šeptá o Pečeti krále..."
+  x: 0
+  y: 2
+  block:
+    up: true     # konec světa
+    right: false # -> Hrad Aldoria (1,2)
+    down: false  # -> Temný les (0,1)
+    left: true
+  enemies:
+    - name: "Duch vojáka"
+      health: 35
+      attack: 10
+      defense: 0
+      loot_item: "Pečeť krále"
+  spawn_chance: 0.9
+
+- id: 8
+  jmeno: "Hradní brána"
+  popis: "Mohutná brána hradu Aldoria. Dvě kamenné sochy rytířů střeží vstup. Brána je zamčena – potřebuješ Pečeť krále."
+  x: 1
+  y: 2
+  block:
+    up: false    # -> Královský sál (1,3) - pouze s Pečetí
+    right: true
+    down: false  # -> Křižovatka (1,1)
+    left: false  # -> Háj duchů (0,2)
+  requires_key: "pecet_krale"
+  enemies:
+    - name: "Hradní strážce"
+      health: 70
+      attack: 20
+      defense: 8
+      loot_item: "Velký lektvar"
+  spawn_chance: 0.8
+
+- id: 9
+  jmeno: "Podzemní kobka"
+  popis: "Vlhká kobka plná kostí. V rohu leží truhla s léčivým lektvarem. Pozor – kostlivci se probouzejí!"
+  x: 0
+  y: 3
+  block:
+    up: true
+    right: false # -> Královský sál (1,3)
+    down: true
+    left: true
+  enemies:
+    - name: "Kostlivec"
+      health: 45
+      attack: 14
+      defense: 4
+      loot_item: "Malý lektvar"
+  spawn_chance: 0.7
+
+- id: 10
+  jmeno: "Královský sál"
+  popis: "Velkolepý trůnní sál kdysi slavné říše. Na trůnu sedí Temný král – konečný nepřítel. Poraz ho a zachráníš Aldorii!"
+  x: 1
+  y: 3
+  block:
+    up: true
+    right: true
+    down: false  # -> Hradní brána (1,2)
+    left: false  # -> Podzemní kobka (0,3)
+  enemies:
+    - name: "Temný král"
+      health: 120
+      attack: 25
+      defense: 12
+      loot_item: null
+  spawn_chance: 1.0
+  win_condition: true

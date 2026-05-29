@@ -1,0 +1,69 @@
+# Předměty ve světě Aldoria
+# locationX/Y odpovídají souřadnicím lokace kde předmět leží
+
+# --- ZBRANĚ ---
+- type: Item.Weapon
+  name: "Zrezivělý meč"
+  locationX: 0
+  locationY: 0
+  attack: 10
+  penetration: 2
+
+- type: Item.Weapon
+  name: "Runový meč"
+  locationX: 2
+  locationY: 0
+  attack: 25
+  penetration: 8
+
+- type: Item.Weapon
+  name: "Vlčí dráp"
+  locationX: 1000
+  locationY: 1000
+  attack: 15
+  penetration: 5
+
+# --- BRNĚNÍ / OCHRANA ---
+- type: Item.Armor
+  name: "Prošívaná kazajka"
+  locationX: 1
+  locationY: 0
+  defense: 5
+
+- type: Item.Armor
+  name: "Rytířská přilba"
+  locationX: 2
+  locationY: 1
+  defense: 8
+
+- type: Item.Armor
+  name: "Plátová zbroj"
+  locationX: 1
+  locationY: 2
+  defense: 15
+
+# --- LEKTVARY / JÍDLO ---
+- type: Item.Potion
+  name: "Malý lektvar"
+  locationX: 0
+  locationY: 3
+  heal: 25
+
+- type: Item.Potion
+  name: "Velký lektvar"
+  locationX: 1000
+  locationY: 1000
+  heal: 50
+
+- type: Item.Potion
+  name: "Chléb a sýr"
+  locationX: 0
+  locationY: 1
+  heal: 15
+
+# --- KLÍČOVÉ PŘEDMĚTY ---
+- type: Item.KeyItem
+  name: "Pečeť krále"
+  locationX: 1000
+  locationY: 1000
+  key_id: "pecet_krale"

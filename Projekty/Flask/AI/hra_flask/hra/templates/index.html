@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head><meta charset="UTF-8"><title>Aldoria – {{ location.jmeno }}</title></head>
+<body>
+
+<h2>⚔️ {{ hrdina.jmeno }}</h2>
+<p>
+  ❤️ HP: {{ hrdina.health }}/100 |
+  🗡️ Zbraň: {{ hrdina.equipped_weapon.name if hrdina.equipped_weapon else "žádná" }} |
+  🛡️ Brnění: {{ hrdina.equipped_armor.name if hrdina.equipped_armor else "žádné" }}
+</p>
+<a href="/inventar">[📦 Inventář ({{ inventory|length }} předmětů)]</a>
+
+<hr>
+
+<h3>📍 {{ location.jmeno }}</h3>
+<p>{{ location.popis }}</p>
+
+{% if message %}
+  <p><em>{{ message }}</em></p>
+{% endif %}
+
+<!-- Předměty v lokaci -->
+{% if location.predmety %}
+<h4>Předměty zde:</h4>
+<ul>
+  {% for item in location.predmety %}
+  <li>
+    {{ item.name }}
+    {% if item.type == 'Item.Weapon' %} (Zbraň, útok: {{ item.attack }})
+    {% elif item.type == 'Item.Armor' %} (Brnění, obrana: {{ item.defense }})
+    {% elif item.type == 'Item.Potion' %} (Lektvar, léčí: {{ item.heal }} HP)
+    {% elif item.type == 'Item.KeyItem' %} 🔑 (Klíčový předmět)
+    {% endif %}
+    <form method="POST" action="/pick/{{ item.name }}" style="display:inline">
+      <button type="submit">Sebrat</button>
+    </form>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+<!-- Pohyb -->
+<h4>Pohyb:</h4>
+<div>
+  <!-- Sever -->
+  <div>
+    {% if 'up' in dir_labels %}
+    <form method="POST" action="/move/up" style="display:inline">
+      <button type="submit">{{ dir_labels.up }}</button>
+    </form>
+    {% endif %}
+  </div>
+
+  <!-- Západ / Východ -->
+  <div>
+    {% if 'left' in dir_labels %}
+    <form method="POST" action="/move/left" style="display:inline">
+      <button type="submit">{{ dir_labels.left }}</button>
+    </form>
+    {% endif %}
+
+    {% if 'right' in dir_labels %}
+    <form method="POST" action="/move/right" style="display:inline">
+      <button type="submit">{{ dir_labels.right }}</button>
+    </form>
+    {% endif %}
+  </div>
+
+  <!-- Jih -->
+  <div>
+    {% if 'down' in dir_labels %}
+    <form method="POST" action="/move/down" style="display:inline">
+      <button type="submit">{{ dir_labels.down }}</button>
+    </form>
+    {% endif %}
+  </div>
+</div>
+
+</body>
+</html>

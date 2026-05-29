@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head><meta charset="UTF-8"><title>Aldoria – Inventář</title></head>
+<body>
+
+<h2>📦 Inventář – {{ hrdina.jmeno }}</h2>
+<p>
+  ❤️ HP: {{ hrdina.health }}/100 |
+  🗡️ Zbraň: {{ hrdina.equipped_weapon.name if hrdina.equipped_weapon else "žádná" }} (útok: +{{ hrdina.equipped_weapon.attack if hrdina.equipped_weapon else 0 }}) |
+  🛡️ Brnění: {{ hrdina.equipped_armor.name if hrdina.equipped_armor else "žádné" }} (obrana: +{{ hrdina.equipped_armor.defense if hrdina.equipped_armor else 0 }})
+</p>
+
+<a href="/game">[← Zpět do hry]</a>
+
+<hr>
+
+{% if inventory %}
+<table border="1" cellpadding="5">
+  <tr>
+    <th>Předmět</th>
+    <th>Typ</th>
+    <th>Vlastnosti</th>
+    <th>Akce</th>
+  </tr>
+  {% for item in inventory %}
+  <tr>
+    <td>{{ item.name }}</td>
+    <td>
+      {% if item.type == 'Item.Weapon' %}🗡️ Zbraň
+      {% elif item.type == 'Item.Armor' %}🛡️ Brnění
+      {% elif item.type == 'Item.Potion' %}🧪 Lektvar
+      {% elif item.type == 'Item.KeyItem' %}🔑 Klíčový předmět
+      {% else %}📦 Předmět
+      {% endif %}
+    </td>
+    <td>
+      {% if item.type == 'Item.Weapon' %}Útok: +{{ item.attack }}, Penetrace: {{ item.penetration }}
+      {% elif item.type == 'Item.Armor' %}Obrana: +{{ item.defense }}
+      {% elif item.type == 'Item.Potion' %}Léčí: {{ item.heal }} HP
+      {% elif item.type == 'Item.KeyItem' %}ID: {{ item.key_id }}
+      {% endif %}
+    </td>
+    <td>
+      <form method="POST" action="/use/{{ item.name }}" style="display:inline">
+        <button type="submit">Použít</button>
+      </form>
+      <form method="POST" action="/drop/{{ item.name }}" style="display:inline">
+        <button type="submit">Vyhodit</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>Inventář je prázdný.</p>
+{% endif %}
+
+</body>
+</html>

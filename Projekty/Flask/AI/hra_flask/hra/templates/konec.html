@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head><meta charset="UTF-8"><title>Aldoria – Konec hry</title></head>
+<body>
+
+{% if result == 'vyhra' %}
+  <h1>🏆 Vítězství!</h1>
+  <p>Hrdino {{ hrdina.jmeno }}, porazil jsi Temného krále a zachránil říši Aldoria!</p>
+  <p>Tvoje jméno bude navždy zapsáno v análech dějin.</p>
+{% else %}
+  <h1>💀 Prohra</h1>
+  <p>Hrdino {{ hrdina.jmeno }}, tvé životy klesly na nulu. Padl jsi v boji.</p>
+  <p>Temný král se chechtá nad tvým tělem...</p>
+{% endif %}
+
+{% if message %}
+  <p><em>{{ message }}</em></p>
+{% endif %}
+
+<hr>
+<form method="POST" action="/restart">
+  <button type="submit">🔄 Hrát znovu</button>
+</form>
+
+</body>
+</html>

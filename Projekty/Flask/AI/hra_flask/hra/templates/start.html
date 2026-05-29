@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head><meta charset="UTF-8"><title>Aldoria – Start</title></head>
+<body>
+<h1>⚔️ Dobrodružství v Aldorii</h1>
+<p>Temný král ovládl říši Aldoria. Ty jsi jediný, kdo ho může zastavit.<br>
+Najdi Pečeť krále, projdi hradní branou a poraz ho v Královském sále.</p>
+
+{% if error %}
+  <p style="color:red">{{ error }}</p>
+{% endif %}
+
+<form method="POST" action="/start">
+  <label>Jméno hrdiny: <input type="text" name="jmeno" autofocus required></label>
+  <button type="submit">Začít hru</button>
+</form>
+</body>
+</html>

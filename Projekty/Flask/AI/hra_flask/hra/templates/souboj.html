@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head><meta charset="UTF-8"><title>Aldoria – Souboj</title></head>
+<body>
+
+<h2>⚔️ {{ hrdina.jmeno }}</h2>
+<p>❤️ HP: {{ hrdina.health }}/100</p>
+
+<hr>
+
+<h3>💀 Souboj s {{ combat.enemy.name }}</h3>
+<p>HP nepřítele: {{ combat.enemy.health }}/{{ combat.enemy.max_health }}</p>
+<p>Útok nepřítele: {{ combat.enemy.attack }} | Obrana nepřítele: {{ combat.enemy.defense }}</p>
+
+{% if message %}
+  <p><strong>{{ message }}</strong></p>
+{% endif %}
+
+<!-- Tlačítka akcí -->
+<h4>Tvoje akce:</h4>
+
+<form method="POST" action="/combat/attack" style="display:inline">
+  <button type="submit">🗡️ Útočit</button>
+</form>
+
+<form method="POST" action="/combat/escape" style="display:inline">
+  <button type="submit">🏃 Utéct</button>
+</form>
+
+<!-- Použít předmět v boji -->
+{% if inventory %}
+<h4>Použít předmět z inventáře:</h4>
+<ul>
+  {% for item in inventory %}
+    {% if item.type in ['Item.Potion', 'Item.Weapon', 'Item.Armor'] %}
+    <li>
+      {{ item.name }}
+      {% if item.type == 'Item.Potion' %} (léčí {{ item.heal }} HP)
+      {% elif item.type == 'Item.Weapon' %} (útok: +{{ item.attack }})
+      {% elif item.type == 'Item.Armor' %} (obrana: +{{ item.defense }})
+      {% endif %}
+      <form method="POST" action="/combat/use/{{ item.name }}" style="display:inline">
+        <button type="submit">Použít</button>
+      </form>
+    </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+{% else %}
+<p><em>Inventář je prázdný.</em></p>
+{% endif %}
+
+<!-- Log posledních akcí -->
+{% if combat.log %}
+<h4>Průběh boje:</h4>
+<ul>
+  {% for entry in combat.log[-5:] %}
+    <li>{{ entry }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+</body>
+</html>
