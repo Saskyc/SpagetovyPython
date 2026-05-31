@@ -1,6 +1,7 @@
 import random
-from flask import Flask, render_template, request, session, redirect, url_for, jsonify
+from flask import Flask, render_template, request, session, redirect, url_for, jsonify, Response
 
+from Classes.Location import Location
 from game.mapa import (
     load_world_data, build_world, get_location,
     get_available_directions, DIRECTION_DELTA, DIRECTION_LABELS
@@ -9,14 +10,14 @@ from game import inventar as inv
 from game import souboj
 
 app = Flask(__name__)
-app.secret_key = "aldoria_tajny_klic_2024"
+app.secret_key = "muj_uzasny_soukromy_klic"
 
 
 # ---------------------------------------------------------------------------
 # Pomocné funkce
 # ---------------------------------------------------------------------------
 
-def init_game(jmeno: str):
+def init_game(jmeno : str) -> None:
     """Inicializuje novou hru a uloží vše do session."""
     locations_data, items_data = load_world_data()
     locations, world_items = build_world(locations_data, items_data)
@@ -37,7 +38,7 @@ def init_game(jmeno: str):
     session.modified = True
 
 
-def get_current_location():
+def get_current_location() -> Location:
     hrdina = session.get("hrdina", {})
     return get_location(session.get("locations", []), hrdina.get("x", 0), hrdina.get("y", 0))
 
@@ -158,7 +159,7 @@ def move(direction):
 
 
 @app.route("/pick/<item_name>", methods=["POST"])
-def pick_item(item_name):
+def pick_item(item_name : str) -> Response:
     if "hrdina" not in session:
         return redirect(url_for("start"))
 

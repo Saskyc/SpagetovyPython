@@ -67,3 +67,8 @@
   locationX: 1000
   locationY: 1000
   key_id: "pecet_krale"
+- type: Item.KeyItem
+  name: "Pass duši"
+  locationX: 1000
+  locationY: 1000
+  key_id: "pass_dusi"
